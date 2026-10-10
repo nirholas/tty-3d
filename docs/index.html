@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>@three-ws/tty-3d: The terminal 3D renderer core</title>
+<meta name="description" content="The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.">
+<link rel="canonical" href="https://nirholas.github.io/tty-3d/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="three.ws">
+<meta property="og:title" content="@three-ws/tty-3d">
+<meta property="og:description" content="The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.">
+<meta property="og:url" content="https://nirholas.github.io/tty-3d/">
+<meta property="og:image" content="https://nirholas.github.io/tty-3d/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="@three-ws/tty-3d">
+<meta name="twitter:description" content="The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.">
+<meta name="twitter:image" content="https://nirholas.github.io/tty-3d/og.png">
+<meta name="keywords" content="3d, terminal, ansi, cli, glb, gltf, rasterizer, software-rendering, skinning, animation, ascii-art, avatar, three.ws, ai-agents">
+<link rel="alternate" type="text/plain" href="llms.txt" title="llms.txt">
+<link rel="icon" href="https://three.ws/three-ws-mcp-icon.svg" type="image/svg+xml">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"SoftwareSourceCode","name":"@three-ws/tty-3d","description":"The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.","codeRepository":"https://github.com/nirholas/tty-3d","programmingLanguage":"JavaScript","license":"https://spdx.org/licenses/Apache-2.0.html","version":"0.1.0","url":"https://nirholas.github.io/tty-3d/","author":{"@type":"Organization","name":"three.ws","url":"https://three.ws"},"keywords":"3d, terminal, ansi, cli, glb, gltf, rasterizer, software-rendering, skinning, animation, ascii-art, avatar, three.ws, ai-agents"}</script>
+<style>:root{--bg:#fff;--fg:#111418;--mut:#586069;--line:#e3e6ea;--acc:#2563eb;--code:#f4f6f8;--card:#fafbfc}
+@media(prefers-color-scheme:dark){:root{--bg:#0b0d10;--fg:#e8eaed;--mut:#9aa3ad;--line:#232830;--acc:#6ea0ff;--code:#14181d;--card:#10141a}}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,sans-serif}
+a{color:var(--acc)}a:focus-visible,button:focus-visible{outline:2px solid var(--acc);outline-offset:2px;border-radius:4px}
+header.bar{position:sticky;top:0;z-index:5;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1100px;margin:0 auto;padding:12px 16px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.brand{font-weight:700;text-decoration:none;color:var(--fg)}
+.bar nav{margin-left:auto;display:flex;gap:16px;font-size:14px}
+.bar nav a{color:var(--mut);text-decoration:none;transition:color .15s}.bar nav a:hover{color:var(--fg)}
+.hero{max-width:1100px;margin:0 auto;padding:48px 16px 24px}
+.hero h1{font-size:clamp(28px,5vw,44px);line-height:1.15;margin:0 0 12px;letter-spacing:-.02em}
+.hero p{color:var(--mut);max-width:70ch;font-size:18px;margin:0 0 24px}
+.install{display:flex;align-items:center;gap:8px;max-width:620px;background:var(--code);border:1px solid var(--line);border-radius:10px;padding:6px 6px 6px 14px}
+.install code{flex:1;overflow-x:auto;white-space:nowrap;font:14px ui-monospace,SFMono-Regular,Menlo,monospace}
+.install button{border:0;background:var(--acc);color:#fff;border-radius:7px;padding:8px 14px;font:600 13px system-ui;cursor:pointer;transition:transform .12s,opacity .12s}
+.install button:hover{opacity:.9}.install button:active{transform:scale(.96)}
+.cta{display:flex;gap:10px;margin-top:16px;flex-wrap:wrap}
+.cta a{padding:9px 16px;border:1px solid var(--line);border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;color:var(--fg);transition:border-color .15s,transform .15s}
+.cta a:hover{border-color:var(--acc);transform:translateY(-1px)}.cta a.pri{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.layout{max-width:1100px;margin:0 auto;padding:8px 16px 64px;display:grid;grid-template-columns:minmax(0,1fr) 220px;gap:40px}
+@media(max-width:860px){.layout{grid-template-columns:minmax(0,1fr)}.toc{display:none}}
+.toc{position:sticky;top:76px;align-self:start;font-size:14px;border-left:1px solid var(--line);padding-left:16px}
+.toc p{margin:0 0 8px;font-weight:700;color:var(--mut);text-transform:uppercase;font-size:12px;letter-spacing:.06em}
+.toc ul{list-style:none;margin:0;padding:0}.toc li{margin:6px 0}.toc a{color:var(--mut);text-decoration:none}.toc a:hover{color:var(--fg)}
+main{min-width:0;overflow-wrap:anywhere}main pre code{overflow-wrap:normal}main img{max-width:100%;height:auto}
+main h2{margin-top:2.2em;padding-bottom:.3em;border-bottom:1px solid var(--line)}
+.anchor{margin-left:-1.1em;padding-right:.4em;text-decoration:none;opacity:0;color:var(--mut)}h2:hover .anchor,h3:hover .anchor,h4:hover .anchor{opacity:1}
+pre{background:var(--code);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:14px;line-height:1.5}
+code{font:0.9em ui-monospace,SFMono-Regular,Menlo,monospace;background:var(--code);padding:.15em .35em;border-radius:5px}pre code{background:none;padding:0}
+table{border-collapse:collapse;display:block;overflow-x:auto;max-width:100%}th,td{border:1px solid var(--line);padding:8px 12px;text-align:left}th{background:var(--card)}
+blockquote{margin:1em 0;padding:.2em 1em;border-left:4px solid var(--line);color:var(--mut)}
+footer{border-top:1px solid var(--line);color:var(--mut);font-size:14px}
+.foot-in{max-width:1100px;margin:0 auto;padding:24px 16px;display:flex;gap:16px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}</style>
+</head>
+<body>
+<header class="bar"><div class="bar-in">
+<a class="brand" href="https://nirholas.github.io/tty-3d/">@three-ws/tty-3d</a>
+<nav aria-label="Project links"><a href="https://github.com/nirholas/tty-3d">GitHub</a><a href="https://www.npmjs.com/package/@three-ws/tty-3d">npm</a><a href="llms.txt">llms.txt</a><a href="https://three.ws">three.ws</a></nav>
+</div></header>
+<section class="hero">
+<h1>@three-ws/tty-3d</h1>
+<p>The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.</p>
+<div class="install" role="group" aria-label="Install command"><code>npx -y @three-ws/tty-3d</code><button type="button" data-copy="npx -y @three-ws/tty-3d">Copy</button></div>
+<div class="cta"><a class="pri" href="https://github.com/nirholas/tty-3d">View on GitHub</a><a href="https://github.com/nirholas/tty-3d/stargazers">Star the repo</a></div>
+</section>
+<div class="layout">
+<main id="content"><h1><code>@three-ws/tty-3d</code></h1>
+<p>Render a rigged, animated 3D model in a terminal. GLB in, coloured text out.</p>
+<p>No GPU, no browser, no display server, no WebGL. It is a software rasterizer: it
+decodes the glTF, evaluates the animation, blends the joint matrices per vertex
+on the CPU, and rasterizes triangles into a z-buffered framebuffer sized to your
+terminal. That makes it work identically over SSH, in CI, inside a container with
+no display, and on a serverless instance.</p>
+<pre><code class="language-bash">npx @three-ws/tty-3d ./avatar.glb
+</code></pre>
+<p>Or, with nothing installed at all:</p>
+<pre><code class="language-bash">curl three.ws/tty
+</code></pre>
+<h2 id="why-this-exists"><a class="anchor" href="#why-this-exists" aria-label="Link to this section">#</a>Why this exists</h2>
+<p>three.ws gives AI agents a body. AI agents increasingly live in a terminal. This
+closes that gap: the same avatar that renders in WebGL on a web page renders in
+the shell where the agent actually runs.</p>
+<p>It is also the renderer core underneath <a href="https://github.com/nirholas/tty-3d/blob/main/./tty-avatar"><code>@three-ws/tty-avatar</code></a>,
+which adds moods, avatar-id resolution and Claude Code hooks on top of a
+terminal renderer. This package owns the part that is purely 3D: skeletal
+animation and rasterization.</p>
+<h2 id="install"><a class="anchor" href="#install" aria-label="Link to this section">#</a>Install</h2>
+<pre><code class="language-bash">npm install @three-ws/tty-3d
+</code></pre>
+<p>Requires Node 18 or newer.</p>
+<h2 id="cli"><a class="anchor" href="#cli" aria-label="Link to this section">#</a>CLI</h2>
+<pre><code class="language-bash">three-tty &lt;model.glb | https://...&gt; [options]
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>--width &lt;n&gt;</code></td>
+<td>Columns</td>
+<td>terminal width</td>
+</tr>
+<tr>
+<td><code>--height &lt;n&gt;</code></td>
+<td>Rows. One row is two vertical pixels</td>
+<td>terminal height minus 2</td>
+</tr>
+<tr>
+<td><code>--fps &lt;n&gt;</code></td>
+<td>Frames per second</td>
+<td>24</td>
+</tr>
+<tr>
+<td><code>--spin &lt;n&gt;</code></td>
+<td>Turntable speed, radians per second. <code>0</code> holds still</td>
+<td>0.9</td>
+</tr>
+<tr>
+<td><code>--clip &lt;name|n&gt;</code></td>
+<td>Which animation to play</td>
+<td>the first one</td>
+</tr>
+<tr>
+<td><code>--no-anim</code></td>
+<td>Hold the rest pose</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--once</code></td>
+<td>Draw one frame and exit</td>
+<td>implied when piped</td>
+</tr>
+<tr>
+<td><code>--frames &lt;n&gt;</code></td>
+<td>Draw n frames and exit</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--time &lt;s&gt;</code></td>
+<td>Where in the clip to start</td>
+<td>0</td>
+</tr>
+<tr>
+<td><code>--pitch &lt;r&gt;</code></td>
+<td>Camera elevation, radians</td>
+<td>0.08</td>
+</tr>
+<tr>
+<td><code>--zoom &lt;n&gt;</code></td>
+<td>1 fits the model, higher moves closer</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>--color &lt;mode&gt;</code></td>
+<td><code>truecolor</code>, <code>ansi256</code>, or <code>mono</code></td>
+<td>detected</td>
+</tr>
+<tr>
+<td><code>--transparent</code></td>
+<td>Leave the background unpainted</td>
+<td></td>
+</tr>
+<tr>
+<td><code>--info</code></td>
+<td>Print what was loaded as JSON, then exit</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>Interactive: arrow keys or <code>a</code>/<code>d</code> orbit, <code>w</code>/<code>s</code> tilt, <code>+</code>/<code>-</code> zoom, space
+pauses, <code>q</code> quits.</p>
+<p><strong>Piping is safe.</strong> When stdout is not a terminal, the default is a single frame,
+not an infinite animation, so <code>three-tty model.glb &gt; frame.txt</code> terminates.</p>
+<pre><code class="language-bash"># a still frame in plain ASCII, for a README or a commit hook
+three-tty avatar.glb --once --width 72 --color mono &gt; frame.txt
+
+# eight seconds of animation, then exit
+three-tty avatar.glb --frames 200 --fps 25
+</code></pre>
+<h2 id="library"><a class="anchor" href="#library" aria-label="Link to this section">#</a>Library</h2>
+<pre><code class="language-js">import { loadModel, createRenderer } from &#39;@three-ws/tty-3d&#39;;
+
+const model = await loadModel(&#39;./avatar.glb&#39;);   // path, https URL, or bytes
+const renderer = createRenderer(model, { width: 80, height: 40 });
+
+process.stdout.write(renderer.frame(1.25));      // one string per frame
+</code></pre>
+<h3 id="loadmodelsource-options"><a class="anchor" href="#loadmodelsource-options" aria-label="Link to this section">#</a><code>loadModel(source, options?)</code></h3>
+<p><code>source</code> is a filesystem path, an <code>http(s)</code> URL, or a <code>Uint8Array</code> / <code>ArrayBuffer</code>
+of GLB bytes. Returns a model with <code>triangleCount</code>, <code>skinned</code>, <code>animations</code> and
+<code>bounds</code>.</p>
+<p><code>EXT_meshopt_compression</code> is decoded unconditionally. Most real avatars ship with
+it, and a reader that skips the decoder does not fail loudly, it reads garbage
+vertex data.</p>
+<h3 id="createrenderermodel-options"><a class="anchor" href="#createrenderermodel-options" aria-label="Link to this section">#</a><code>createRenderer(model, options?)</code></h3>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Type</th>
+<th>Default</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>width</code>, <code>height</code></td>
+<td>number, in characters</td>
+<td>96 x 48</td>
+</tr>
+<tr>
+<td><code>animation</code></td>
+<td>clip name, index, or <code>false</code> for the rest pose</td>
+<td>first clip</td>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td><code>&#39;truecolor&#39;</code> | <code>&#39;ansi256&#39;</code> | <code>&#39;mono&#39;</code></td>
+<td><code>&#39;truecolor&#39;</code></td>
+</tr>
+<tr>
+<td><code>background</code></td>
+<td><code>[r, g, b]</code> in 0..1</td>
+<td>near black</td>
+</tr>
+<tr>
+<td><code>transparent</code></td>
+<td>leave uncovered cells as spaces</td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td><code>spin</code></td>
+<td>turntable radians per second</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>pitch</code>, <code>zoom</code></td>
+<td>camera elevation and distance</td>
+<td>0.08, 1</td>
+</tr>
+<tr>
+<td><code>tint</code></td>
+<td><code>[r, g, b]</code> multiplier</td>
+<td>white</td>
+</tr>
+</tbody></table>
+<p>Returns <code>{ frame(time), setOrbit({yaw, pitch, zoom}), orbit, width, height, framing }</code>.
+<code>frame(time)</code> is pure and deterministic: the same time always renders the same
+string.</p>
+<h3 id="other-exports"><a class="anchor" href="#other-exports" aria-label="Link to this section">#</a>Other exports</h3>
+<p><code>renderOnce(source, options)</code>, <code>describeModel(model)</code>, <code>selectAnimation(model, wanted)</code>,
+<code>detectColorMode(env, stream)</code>, <code>toAnsi256(r, g, b)</code>, <code>framebufferToText(fb, opts)</code>,
+<code>ColorMode</code>, and <code>ansi</code> (cursor control strings). The lower layers are reachable
+at <code>@three-ws/tty-3d/model</code>, <code>/raster</code> and <code>/term</code> if you want the framebuffer
+rather than the text.</p>
+<h2 id="how-it-looks-like-graphics-and-not-ascii-art"><a class="anchor" href="#how-it-looks-like-graphics-and-not-ascii-art" aria-label="Link to this section">#</a>How it looks like graphics and not ASCII art</h2>
+<p>Each character cell is a <code>▀</code> (upper half block) with its own foreground and
+background colour, so one cell carries <strong>two</strong> independently coloured pixels.
+That doubles vertical resolution and, more importantly, makes pixels square:
+terminal cells are roughly 1:2, so a half-block grid has a 1:1 pixel aspect and a
+sphere comes out round instead of squashed.</p>
+<p>Colour depth is detected conservatively. Guessing truecolor wrong sprays literal
+escape sequences across the user&#39;s screen; guessing 256 wrong just looks flatter.
+<code>NO_COLOR</code> is honoured, and <code>THREE_TTY_COLOR</code> forces a mode.</p>
+<h2 id="three-things-that-are-easy-to-get-wrong"><a class="anchor" href="#three-things-that-are-easy-to-get-wrong" aria-label="Link to this section">#</a>Three things that are easy to get wrong</h2>
+<p>These are documented because each one shipped as a bug during development and is
+now covered by a regression test.</p>
+<ol>
+<li><strong>The skinned mesh node transform must be ignored.</strong> glTF defines the skinning
+matrix as <code>inverse(meshNodeWorld) * jointWorld * inverseBind</code>, then transforms
+the result by <code>meshNodeWorld</code> again, so the two cancel. Applying the leading
+inverse without re-applying the outer transform cancels the skeleton&#39;s up-axis
+correction and lays the character on its back.</li>
+<li><strong>A matrix multiply must not alias its own output.</strong> <code>multiply(m, ibm, m)</code>
+reads <code>m</code>&#39;s earlier columns while writing later ones. The result looks like a
+plausible matrix and renders as spikes radiating out of every joint.</li>
+<li><strong>Unresolvable joints must keep their slot.</strong> <code>JOINTS_0</code> indexes the joint list
+positionally, so filtering a hole out renumbers every joint after it and rigs
+vertices to the wrong bones.</li>
+</ol>
+<h2 id="framing"><a class="anchor" href="#framing" aria-label="Link to this section">#</a>Framing</h2>
+<p>The camera radius is fixed from the widest frame of the clip while the centre is
+recomputed per frame. Fitting the current frame alone makes the camera breathe as
+the silhouette changes; unioning every frame is worse on anything with root
+motion, because the union is a corridor as long as the character walks and fitting
+that corridor shrinks the character to a speck.</p>
+<h2 id="tests"><a class="anchor" href="#tests" aria-label="Link to this section">#</a>Tests</h2>
+<pre><code class="language-bash">npx vitest run packages/tty-3d/tests
+</code></pre>
+<p>The fixtures are the Khronos sample models this repository already ships
+(<code>cesium-man</code>, a skinned walk cycle with a Z-up skeleton root; <code>brainstem</code>, many
+primitives and materials).</p>
+<h2 id="license"><a class="anchor" href="#license" aria-label="Link to this section">#</a>License</h2>
+<p>Apache-2.0.</p>
+</main>
+<nav class="toc" aria-label="On this page"><p>On this page</p><ul><li><a href="#why-this-exists">Why this exists</a></li><li><a href="#install">Install</a></li><li><a href="#cli">CLI</a></li><li><a href="#library">Library</a></li><li><a href="#how-it-looks-like-graphics-and-not-ascii-art">How it looks like graphics and not ASCII art</a></li><li><a href="#three-things-that-are-easy-to-get-wrong">Three things that are easy to get wrong</a></li><li><a href="#framing">Framing</a></li><li><a href="#tests">Tests</a></li><li><a href="#license">License</a></li></ul></nav>
+</div>
+<footer><div class="foot-in"><span>Apache-2.0 licensed</span><a href="https://github.com/nirholas/tty-3d/issues">Issues</a><a href="https://github.com/nirholas/tty-3d/blob/main/CONTRIBUTING.md">Contributing</a><a href="https://github.com/nirholas/tty-3d/security/policy">Security</a><a href="https://three.ws">Part of three.ws</a></div></footer>
+<script>document.querySelectorAll('[data-copy]').forEach(function(b){b.addEventListener('click',function(){
+var t=b.getAttribute('data-copy');var done=function(){var o=b.textContent;b.textContent='Copied';setTimeout(function(){b.textContent=o},1400)};
+if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,function(){})}
+else{var a=document.createElement('textarea');a.value=t;document.body.appendChild(a);a.select();try{document.execCommand('copy');done()}catch(e){}a.remove()}})});</script>
+</body>
+</html>

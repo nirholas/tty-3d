@@ -1,0 +1,19 @@
+# @three-ws/tty-3d
+
+> The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI.
+
+@three-ws/tty-3d is a JavaScript library from three.ws. Install: `npx -y @three-ws/tty-3d`.
+
+## Docs
+
+- [README](https://github.com/nirholas/tty-3d/blob/main/README.md): install, configuration, full reference
+- [Documentation site](https://nirholas.github.io/tty-3d/): the README as a web page
+- [Full text for LLMs](https://nirholas.github.io/tty-3d/llms-full.txt): README inlined
+- [AGENTS.md](https://github.com/nirholas/tty-3d/blob/main/AGENTS.md): guidance for coding agents
+
+## Project
+
+- [Source](https://github.com/nirholas/tty-3d)
+- [npm](https://www.npmjs.com/package/@three-ws/tty-3d)
+- [three.ws](https://three.ws): the platform this is part of
+- [Issues](https://github.com/nirholas/tty-3d/issues)

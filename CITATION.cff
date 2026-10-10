@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: If you use this software, please cite it as below.
+title: "@three-ws/tty-3d"
+abstract: "The terminal 3D renderer core: GLB in, skinned and animated ANSI frames out. A software rasterizer with real glTF skeletal animation, no GPU, no browser and no display server, plus the three-tty CLI."
+version: 0.1.0
+license: Apache-2.0
+repository-code: "https://github.com/nirholas/tty-3d"
+url: "https://three.ws"
+authors:
+  - name: three.ws
+    website: "https://three.ws"
